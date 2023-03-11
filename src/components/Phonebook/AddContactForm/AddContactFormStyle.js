@@ -11,10 +11,7 @@ export const ContactForm = styled(Form)`
 
 export const InputWrapper = styled.div`
   position: relative;
-  margin-bottom: 20px;
-  :last-of-type {
-    margin-bottom: 35px;
-  }
+  margin-bottom: 40px;
 `;
 
 export const Error = styled(ErrorMessage)`
