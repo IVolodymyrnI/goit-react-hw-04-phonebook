@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid';
 import { Component } from 'react';
 import InitialContacts from 'components/data/contacts';
 import { ContactForm } from 'components/Phonebook/ContactForm/ContactForm';
@@ -13,9 +14,10 @@ export class App extends Component {
 
   onAddContactBtn = value => {
     const isContactExist = this.checkOnUniqueName(value);
+    const valueWithId = Object.assign(value, { id: nanoid() });
 
-    isContactExist
-      ? this.setContactToState(value)
+		isContactExist
+      ? this.setContactToState(valueWithId)
       : alert(`${value.name} is already in contacts.`);
   };
 
@@ -49,7 +51,8 @@ export class App extends Component {
     const filteredContacts = contacts.filter(contact =>
       contact.name.toLowerCase().includes(normaliziedName)
     );
-    return (
+
+		return (
       <AppStyle>
         <Title>PhoneBook</Title>
         <ContactForm onAddContactBtn={this.onAddContactBtn} />

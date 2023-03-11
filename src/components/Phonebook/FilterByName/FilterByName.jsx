@@ -12,8 +12,8 @@ export function FilterByName({ onFilterName, value }) {
   const onChange = e => {
     const inputValue = e.currentTarget.value;
     onFilterName(inputValue);
-  };
-
+	};
+	
   return (
     <Formik initialValues={{ findName: '' }}>
       <Form>

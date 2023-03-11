@@ -16,8 +16,7 @@ export const ContactForm = ({ onAddContactBtn }) => {
   const nameId = nanoid();
 
   const onSubmit = (value, { resetForm }) => {
-    const objectId = nanoid();
-    onAddContactBtn(Object.assign(value, { id: objectId }));
+    onAddContactBtn(value);
     resetForm();
   };
 
