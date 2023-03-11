@@ -22,6 +22,15 @@ const PHONE_NUMBER_PATTERN_TITTLE =
 const NAME_PATTERN_TEXT = 'Name is a required field';
 const PHONE_NUMBER_PATTERN_TEXT = 'Phone number is a required field';
 
+const schema = object({
+    name: string()
+      .matches(NAME_PATTERN, NAME_PATTERN_TITTLE)
+      .required(NAME_PATTERN_TEXT),
+    phoneNumber: string()
+      .matches(PHONE_NUMBER_PATTERN, PHONE_NUMBER_PATTERN_TITTLE)
+      .required(PHONE_NUMBER_PATTERN_TEXT),
+  });
+
 export const AddContactForm = ({ onAddContactBtn }) => {
   const phoneNumberId = nanoid();
   const nameId = nanoid();
@@ -31,15 +40,6 @@ export const AddContactForm = ({ onAddContactBtn }) => {
     onAddContactBtn(Object.assign(value, { id: objectId }));
     resetForm();
   };
-
-  const schema = object({
-    name: string()
-      .matches(NAME_PATTERN, NAME_PATTERN_TITTLE)
-      .required(NAME_PATTERN_TEXT),
-    phoneNumber: string()
-      .matches(PHONE_NUMBER_PATTERN, PHONE_NUMBER_PATTERN_TITTLE)
-      .required(PHONE_NUMBER_PATTERN_TEXT),
-  });
 
   return (
     <Formik
