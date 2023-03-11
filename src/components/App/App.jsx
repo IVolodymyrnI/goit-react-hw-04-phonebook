@@ -37,8 +37,8 @@ export class App extends Component {
 
   checkOnUniqueName = value => {
     const { contacts } = this.state;
-    const arrayOfNames = contacts.map(contact => contact.name);
-    const index = arrayOfNames.indexOf(value.name);
+    const arrayOfNames = contacts.map(contact => contact.name.toLowerCase());
+    const index = arrayOfNames.indexOf(value.name.toLowerCase());
 
     return index === -1;
   };

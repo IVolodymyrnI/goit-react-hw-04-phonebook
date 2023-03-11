@@ -25,7 +25,8 @@ PhoneNumberList.propTypes = {
   contacts: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
-      phoneNumber: PropTypes.string.isRequired,
+			phoneNumber: PropTypes.string.isRequired,
+			id: PropTypes.string.isRequired,
     })
   ),
   onDeleteBtn: PropTypes.func.isRequired,
