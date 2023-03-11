@@ -1,7 +1,7 @@
 import { Form, Field, ErrorMessage } from 'formik';
 import styled from 'styled-components';
 
-export const ContactForm = styled(Form)`
+export const FormWindow = styled(Form)`
   width: 300px;
   padding: 10px;
   overflow: auto;

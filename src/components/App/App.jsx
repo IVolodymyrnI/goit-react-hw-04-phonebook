@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import InitialContacts from 'components/data/contacts';
-import { AddContactForm } from 'components/Phonebook/AddContactForm/AddContactForm';
+import { ContactForm } from 'components/Phonebook/ContactForm/ContactForm';
 import { PhoneNumberList } from 'components/Phonebook/PhoneNumberList/PhoneNumberList';
 import { FilterByName } from 'components/Phonebook/FilterByName/FilterByName';
 import { Title, SubTitle, AppStyle } from './AppStyle';
@@ -52,7 +52,7 @@ export class App extends Component {
     return (
       <AppStyle>
         <Title>PhoneBook</Title>
-        <AddContactForm onAddContactBtn={this.onAddContactBtn} />
+        <ContactForm onAddContactBtn={this.onAddContactBtn} />
         <SubTitle>Contacts</SubTitle>
         <FilterByName onFilterName={this.onFilterName} value={filter} />
         <PhoneNumberList

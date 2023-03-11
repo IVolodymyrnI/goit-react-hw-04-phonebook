@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {
   Label,
   Input,
-} from 'components/Phonebook/AddContactForm/AddContactFormStyle';
+} from 'components/Phonebook/ContactForm/ContactFormStyle';
 
 export function FilterByName({ onFilterName, value }) {
   const nameId = nanoid();

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Info, List, Item } from './PhoneNumberListStyle';
-import { Button } from 'components/Phonebook/AddContactForm/AddContactFormStyle';
+import { Button } from 'components/Phonebook/ContactForm/ContactFormStyle';
 
 export function PhoneNumberList({ contacts, onDeleteBtn }) {
   return (

@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
 import {
   Input,
-  ContactForm,
+  FormWindow,
   Label,
   Button,
   Error,
   InputWrapper,
-} from './AddContactFormStyle';
-import { schema } from './contactValidation';
+} from './ContactFormStyle';
+import { schema } from './ContactFormValidation';
 
-export const AddContactForm = ({ onAddContactBtn }) => {
+export const ContactForm = ({ onAddContactBtn }) => {
   const phoneNumberId = nanoid();
   const nameId = nanoid();
 
@@ -27,7 +27,7 @@ export const AddContactForm = ({ onAddContactBtn }) => {
       onSubmit={onSubmit}
       validationSchema={schema}
     >
-      <ContactForm>
+      <FormWindow>
         <Label htmlFor={nameId}>Name</Label>
         <InputWrapper>
           <Error name="name" component="p" />
@@ -39,11 +39,11 @@ export const AddContactForm = ({ onAddContactBtn }) => {
           <Input type="tel" id={phoneNumberId} name="phoneNumber"></Input>
         </InputWrapper>
         <Button type="submit">Add contact</Button>
-      </ContactForm>
+      </FormWindow>
     </Formik>
   );
 };
 
-AddContactForm.propTypes = {
+ContactForm.propTypes = {
   onAddContactBtn: PropTypes.func.isRequired,
 };
