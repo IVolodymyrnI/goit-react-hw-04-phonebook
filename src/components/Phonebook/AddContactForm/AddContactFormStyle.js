@@ -1,4 +1,4 @@
-import { Form, Field } from 'formik';
+import { Form, Field, ErrorMessage } from 'formik';
 import styled from 'styled-components';
 
 export const ContactForm = styled(Form)`
@@ -9,10 +9,25 @@ export const ContactForm = styled(Form)`
   margin-bottom: 30px;
 `;
 
+export const InputWrapper = styled.div`
+  position: relative;
+  margin-bottom: 20px;
+  :last-of-type {
+    margin-bottom: 35px;
+  }
+`;
+
+export const Error = styled(ErrorMessage)`
+  position: absolute;
+  top: 24px;
+  color: red;
+  font-size: 10px;
+`;
+
 export const Label = styled.label`
   display: block;
-  margin-bottom: 12px;
   font-size: 24px;
+  margin-bottom: 8px;
   font-weight: 500;
 `;
 
@@ -20,7 +35,6 @@ export const Input = styled(Field)`
   outline: none;
   border: 1px solid gray;
   display: block;
-  margin-bottom: 16px;
   :focus-within {
     border-color: blue;
     box-shadow: rgba(3, 102, 214, 0.5) 0px 0px 0px 3px;
