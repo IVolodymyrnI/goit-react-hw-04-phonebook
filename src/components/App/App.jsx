@@ -5,6 +5,9 @@ import { ContactForm } from 'components/Phonebook/ContactForm/ContactForm';
 import { PhoneNumberList } from 'components/Phonebook/PhoneNumberList/PhoneNumberList';
 import { FilterByName } from 'components/Phonebook/FilterByName/FilterByName';
 import { Title, SubTitle, AppStyle } from './AppStyle';
+import { load, save } from 'components/utils';
+
+const contactsAsKey = 'contacts';
 
 export class App extends Component {
   state = {
@@ -16,7 +19,7 @@ export class App extends Component {
     const isContactExist = this.checkOnUniqueName(value);
     const valueWithId = Object.assign(value, { id: nanoid() });
 
-		isContactExist
+    isContactExist
       ? this.setContactToState(valueWithId)
       : alert(`${value.name} is already in contacts.`);
   };
@@ -33,7 +36,9 @@ export class App extends Component {
 
   setContactToState = value => {
     this.setState(prevState => ({
-      contacts: [value, ...prevState.contacts],
+      contacts: Array.isArray(value)
+        ? Array.from(value)
+        : [value, ...prevState.contacts],
     }));
   };
 
@@ -45,6 +50,20 @@ export class App extends Component {
     return index === -1;
   };
 
+  componentDidUpdate(prevState) {
+    const { contacts } = this.state;
+    if (contacts !== prevState.contacts) {
+      save(contactsAsKey, contacts);
+    }
+  }
+
+  componentDidMount() {
+    const contacts = load(contactsAsKey);
+    if (contacts) {
+      this.setContactToState(contacts);
+    }
+  }
+
   render() {
     const { contacts, filter } = this.state;
     const normaliziedName = filter.toLowerCase();
@@ -52,8 +71,9 @@ export class App extends Component {
       contact.name.toLowerCase().includes(normaliziedName)
     );
 
-		return (
-      <AppStyle>
+    return (
+			<AppStyle>
+				{ console.log()}
         <Title>PhoneBook</Title>
         <ContactForm onAddContactBtn={this.onAddContactBtn} />
         <SubTitle>Contacts</SubTitle>
