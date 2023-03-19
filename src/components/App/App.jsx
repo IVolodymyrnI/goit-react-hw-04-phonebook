@@ -50,7 +50,7 @@ export class App extends Component {
     return index === -1;
   };
 
-  componentDidUpdate(prevState) {
+  componentDidUpdate(_, prevState) {
     const { contacts } = this.state;
     if (contacts !== prevState.contacts) {
       save(contactsAsKey, contacts);
@@ -72,8 +72,8 @@ export class App extends Component {
     );
 
     return (
-			<AppStyle>
-				{ console.log()}
+      <AppStyle>
+        {console.log()}
         <Title>PhoneBook</Title>
         <ContactForm onAddContactBtn={this.onAddContactBtn} />
         <SubTitle>Contacts</SubTitle>
