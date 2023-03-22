@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid';
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
 import InitialContacts from 'components/data/contacts';
 import { ContactForm } from 'components/Phonebook/ContactForm/ContactForm';
 import { PhoneNumberList } from 'components/Phonebook/PhoneNumberList/PhoneNumberList';
@@ -9,80 +9,57 @@ import { load, save } from 'components/utils';
 
 const contactsAsKey = 'contacts';
 
-export class App extends Component {
-  state = {
-    contacts: InitialContacts,
-    filter: '',
-  };
+const useLocalStorage = (key, defaultValue = null) => {
+  const [state, setState] = useState(() => load(key) ?? defaultValue);
 
-  onAddContactBtn = value => {
-    const isContactExist = this.checkOnUniqueName(value);
+  useEffect(() => {
+    save(key, state);
+  }, [state, key]);
+
+  return [state, setState];
+};
+
+export const App = () => {
+  const [contacts, setContacts] = useLocalStorage(
+    contactsAsKey,
+    InitialContacts
+  );
+
+  const [filter, setFilter] = useState('');
+
+  const onAddContactBtn = value => {
+    const isContactExist = checkOnUniqueName(value);
     const valueWithId = Object.assign(value, { id: nanoid() });
 
     isContactExist
-      ? this.setContactToState(valueWithId)
+      ? setContacts([valueWithId, ...contacts])
       : alert(`${value.name} is already in contacts.`);
   };
 
-  onFilterName = value => {
-    this.setState({ filter: value });
+  const onDeleteBtn = id => {
+    const cleanedContacts = contacts.filter(contact => contact.id !== id);
+    setContacts(cleanedContacts);
   };
 
-  onDeleteBtn = id => {
-    this.setState(({ contacts }) => ({
-      contacts: contacts.filter(contact => contact.id !== id),
-    }));
-  };
-
-  setContactToState = value => {
-    this.setState(prevState => ({
-      contacts: Array.isArray(value)
-        ? Array.from(value)
-        : [value, ...prevState.contacts],
-    }));
-  };
-
-  checkOnUniqueName = value => {
-    const { contacts } = this.state;
+  const checkOnUniqueName = value => {
     const arrayOfNames = contacts.map(contact => contact.name.toLowerCase());
     const index = arrayOfNames.indexOf(value.name.toLowerCase());
 
     return index === -1;
   };
 
-  componentDidUpdate(_, prevState) {
-    const { contacts } = this.state;
-    if (contacts !== prevState.contacts) {
-      save(contactsAsKey, contacts);
-    }
-  }
+  const normaliziedName = filter.toLowerCase();
+  const filteredContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(normaliziedName)
+  );
 
-  componentDidMount() {
-    const contacts = load(contactsAsKey);
-    if (contacts) {
-      this.setContactToState(contacts);
-    }
-  }
-
-  render() {
-    const { contacts, filter } = this.state;
-    const normaliziedName = filter.toLowerCase();
-    const filteredContacts = contacts.filter(contact =>
-      contact.name.toLowerCase().includes(normaliziedName)
-    );
-
-    return (
-      <AppStyle>
-        {console.log()}
-        <Title>PhoneBook</Title>
-        <ContactForm onAddContactBtn={this.onAddContactBtn} />
-        <SubTitle>Contacts</SubTitle>
-        <FilterByName onFilterName={this.onFilterName} value={filter} />
-        <PhoneNumberList
-          contacts={filteredContacts}
-          onDeleteBtn={this.onDeleteBtn}
-        />
-      </AppStyle>
-    );
-  }
-}
+  return (
+    <AppStyle>
+      <Title>PhoneBook</Title>
+      <ContactForm onAddContactBtn={onAddContactBtn} />
+      <SubTitle>Contacts</SubTitle>
+      <FilterByName onFilterName={value => setFilter(value)} value={filter} />
+      <PhoneNumberList contacts={filteredContacts} onDeleteBtn={onDeleteBtn} />
+    </AppStyle>
+  );
+};
