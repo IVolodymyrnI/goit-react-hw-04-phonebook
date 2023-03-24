@@ -7,7 +7,7 @@ import { FilterByName } from 'components/Phonebook/FilterByName/FilterByName';
 import { Title, SubTitle, AppStyle } from './AppStyle';
 import { load, save } from 'components/utils';
 
-const contactsAsKey = 'contacts';
+const LOCAL_CONTACTS = 'contacts';
 
 const useLocalStorage = (key, defaultValue = null) => {
   const [state, setState] = useState(() => load(key) ?? defaultValue);
@@ -21,10 +21,9 @@ const useLocalStorage = (key, defaultValue = null) => {
 
 export const App = () => {
   const [contacts, setContacts] = useLocalStorage(
-    contactsAsKey,
+    LOCAL_CONTACTS,
     InitialContacts
   );
-
   const [filter, setFilter] = useState('');
 
   const onAddContactBtn = value => {
@@ -48,9 +47,8 @@ export const App = () => {
     return index === -1;
   };
 
-  const normaliziedName = filter.toLowerCase();
   const filteredContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(normaliziedName)
+    contact.name.toLowerCase().includes(filter)
   );
 
   return (
@@ -58,7 +56,10 @@ export const App = () => {
       <Title>PhoneBook</Title>
       <ContactForm onAddContactBtn={onAddContactBtn} />
       <SubTitle>Contacts</SubTitle>
-      <FilterByName onFilterName={value => setFilter(value)} value={filter} />
+      <FilterByName
+        onFilterName={value => setFilter(value.toLowerCase())}
+        value={filter}
+      />
       <PhoneNumberList contacts={filteredContacts} onDeleteBtn={onDeleteBtn} />
     </AppStyle>
   );
