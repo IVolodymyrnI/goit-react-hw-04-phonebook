@@ -1,23 +1,13 @@
 import { nanoid } from 'nanoid';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useLocalStorage } from 'hooks';
 import InitialContacts from 'components/data/contacts';
 import { ContactForm } from 'components/Phonebook/ContactForm/ContactForm';
 import { PhoneNumberList } from 'components/Phonebook/PhoneNumberList/PhoneNumberList';
 import { FilterByName } from 'components/Phonebook/FilterByName/FilterByName';
 import { Title, SubTitle, AppStyle } from './AppStyle';
-import { load, save } from 'components/utils';
 
 const LOCAL_CONTACTS = 'contacts';
-
-const useLocalStorage = (key, defaultValue = null) => {
-  const [state, setState] = useState(() => load(key) ?? defaultValue);
-
-  useEffect(() => {
-    save(key, state);
-  }, [state, key]);
-
-  return [state, setState];
-};
 
 export const App = () => {
   const [contacts, setContacts] = useLocalStorage(
